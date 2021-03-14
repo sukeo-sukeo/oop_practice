@@ -6,7 +6,6 @@ $(function () {
     constructor(text, id, tagName) {
       this.name = text;
       this.elm = Element.create(text, id, tagName);
-      this.counter = 0;
     }
 
     static create(text, id, tagName) {
@@ -28,6 +27,7 @@ $(function () {
     constructor(text, id, tagName = 'button') {
       super(text, id, tagName);
       console.log(`${this.name}が生成されました`);
+      this.counter = 0;
     }
     countUp() {
       this.counter++;
