@@ -1,62 +1,34 @@
 'use strict'
 
-class Characrtor {
-  constructor(name, hp, atk) {
-    this.name = name;
-    this.hp = hp;
-    this.atk = atk;
-  }
-  doAttack(to) {
-    console.log(`${this.name}の攻撃！${to}に${this.atk}のダメージ`);
-  }
+import {Kisatutai, Oni} from './charactor.js'
+import {Battle} from './battle.js'
 
-  doDeathbolow(to) {
-    let skill_type, skill_num, power, answer
-    if (this.skill === '呼吸') {
-      console.log(this.skill);
-      skill_type = '水' //ランダムにする
-      skill_num = '一' //ランダムにする
-      answer = '水面斬り' //ランダムにする ひらがなOK
-      power = 3 //入力速度に応じて決定する
-      const reulst = prompt(`${skill_type}の呼吸${skill_num}の型...`, '技の名前を入力してください');
-      if (reulst === answer) {
-        console.log(`${skill_type}の呼吸${skill_num}の型... 「${answer}!!!!」`)
-        console.log(`決まった！${to}に${this.atk * power}のダメージ!`)
-      } else {
-        return
-      }
-    }
-    if (this.skill === '血鬼術') {
-      console.log(this.skill);
-      let skill = '破壊殺' //ランダムにする
-      let power = 5 //ランダムにする
-      console.log(`血鬼術...「${skill}」`)
-      console.log(`${to}に${this.atk * power}のダメージ!`)
-    }
-    
+const battleMenue = ["たたかう", "呼吸", "逃げる"];
 
-  }
-}
-
-class Kisatutai extends Characrtor {
-  constructor(name, hp, atk) {
-    super(name, hp, atk);
-    this.skill = '呼吸'
-  }
-}
-
-class Oni extends Characrtor {
-  constructor(name, hp, atk) {
-    super(name, hp, atk);
-    this.skill = '血鬼術'
-  }
-}
-
-const tanjirou = new Kisatutai('炭治郎', 100, 50)
+const tanjirou = new Kisatutai("炭治郎", 100, 50);
 console.log(tanjirou);
-tanjirou.doDeathbolow('あかざ')
+tanjirou.createImg()
 
-const akaza = new Oni('あかざ', 300, 200)
+const akaza = new Oni("あかざ", 300, 200);
 console.log(akaza);
-akaza.doAttack(tanjirou.name)
-akaza.doDeathbolow(tanjirou.name)
+// akaza.doAttack(tanjirou.name);
+// akaza.doDeathbolow(tanjirou.name);
+
+// const battle = new Battle(tanjirou, akaza, battleMenue);
+
+function keyDownFanc(e, chara) {
+  //押されたボタンに割り当てられた数値（すうち）を、key_codeに代入
+  const key_code = e.keyCode;
+
+  if (key_code === 37) chara.x -= 8; //「左ボタン」が押されたとき、xの値から32を引き算する
+  if (key_code === 38) chara.y -= 8; //「上ボタン」が押されたとき、yの値から32を引き算する
+  if (key_code === 39) chara.x += 8; //「右ボタン」が押されたとき、xの値に32を足し算する
+  if (key_code === 40) chara.y += 8; //「下ボタン」が押されたとき、yの値に32を足し算する
+
+  //りこちゃんの画像の位置（いち）を反映（はんえい）させる
+  document.getElementById(chara.name).style.top = chara.y + "px";
+  document.getElementById(chara.name).style.left = chara.x + "px";
+  // requestAnimationFrame(keyDownFanc(e, chara))
+}
+
+addEventListener("keydown", e => keyDownFanc(e, tanjirou));
